@@ -1,3 +1,49 @@
 {
-  "assets": []
+  "assets": [
+    {
+      "symbol": "BTC",
+      "quantity": 0,
+      "average_cost": 0
+    },
+    {
+      "symbol": "XRP",
+      "quantity": 0,
+      "average_cost": 0
+    },
+    {
+      "symbol": "SUI",
+      "quantity": 0,
+      "average_cost": 0
+    },
+    {
+      "symbol": "FET",
+      "quantity": 0,
+      "average_cost": 0
+    },
+    {
+      "symbol": "IMX",
+      "quantity": 0,
+      "average_cost": 0
+    },
+    {
+      "symbol": "ARB",
+      "quantity": 0,
+      "average_cost": 0
+    },
+    {
+      "symbol": "RENDER",
+      "quantity": 0,
+      "average_cost": 0
+    },
+    {
+      "symbol": "LINK",
+      "quantity": 0,
+      "average_cost": 0
+    },
+    {
+      "symbol": "PUMP",
+      "quantity": 0,
+      "average_cost": 0
+    }
+  ]
 }
