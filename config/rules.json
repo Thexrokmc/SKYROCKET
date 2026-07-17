@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "rules": [
+    {
+      "id": "RULE-001",
+      "name": "Macro Filter",
+      "enabled": true,
+      "weight": 20
+    },
+    {
+      "id": "RULE-002",
+      "name": "BTC Confirmation",
+      "enabled": true,
+      "weight": 15
+    },
+    {
+      "id": "RULE-003",
+      "name": "Portfolio Allocation",
+      "enabled": true,
+      "weight": 15
+    }
+  ]
+}
