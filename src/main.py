@@ -1,15 +1,42 @@
-from portfolio.portfolio_engine import PortfolioEngine
+from portfolio.portfolio import Portfolio
+from data.market import Market
+
+from engines.rule_engine import RuleEngine
+from engines.skyscore_engine import SkyScoreEngine
+from engines.decision_engine import DecisionEngine
+
+from rules.allocation_rule import AllocationRule
 
 
 def main():
+
     print("🚀 SKYROCKET v1.0")
     print("---------------------------")
 
-    portfolio = PortfolioEngine()
+    portfolio = Portfolio()
 
-    portfolio.load_portfolio()
+    market = Market()
 
-    portfolio.summary()
+    rule_engine = RuleEngine()
+
+    rule_engine.add_rule(
+        AllocationRule()
+    )
+
+    results = rule_engine.evaluate(
+        portfolio,
+        market
+    )
+
+    skyscore = SkyScoreEngine()
+
+    score = skyscore.calculate(results)
+
+    decision = DecisionEngine()
+
+    final = decision.decide(score)
+
+    print(final)
 
 
 if __name__ == "__main__":
