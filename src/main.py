@@ -1,5 +1,5 @@
 from portfolio.portfolio import Portfolio
-from data.market import Market
+from data.market import MarketData
 
 from engines.rule_engine import RuleEngine
 from engines.decision_engine import DecisionEngine
@@ -14,7 +14,7 @@ def main():
 
     portfolio = Portfolio()
 
-    market = Market()
+   market = MarketData()
 
     rule_engine = RuleEngine()
 
