@@ -18,4 +18,5 @@ def market_data_to_facts(market: MarketData) -> list[Fact]:
                 id=PRICE_ABOVE_EMA50,
                 value=market.price > market.ema50
             )
-        )    return facts
+        )    
+return facts
