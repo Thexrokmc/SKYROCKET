@@ -1,15 +1,15 @@
-class Market:
+class MarketData:
 
     def __init__(self):
-        self.phase = "UNKNOWN"
-        self.btc_trend = "UNKNOWN"
-        self.total_market_trend = "UNKNOWN"
-        self.fear_greed = None
+        self.symbol = ""
+        self.price = None
+        self.volume = None
 
-    def summary(self):
-        return {
-            "phase": self.phase,
-            "btc_trend": self.btc_trend,
-            "market_trend": self.total_market_trend,
-            "fear_greed": self.fear_greed
-        }
+        self.ema50 = None
+        self.ema200 = None
+
+        self.rsi = None
+
+        self.macd = None
+        self.macd_signal = None
+        self.macd_histogram = None
