@@ -2,7 +2,6 @@ from portfolio.portfolio import Portfolio
 from data.market import Market
 
 from engines.rule_engine import RuleEngine
-from engines.skyscore_engine import SkyScoreEngine
 from engines.decision_engine import DecisionEngine
 
 from rules.allocation_rule import AllocationRule
