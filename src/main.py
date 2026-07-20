@@ -27,9 +27,6 @@ def main():
         market
     )
 
-    skyscore = SkyScoreEngine()
-
-    score = skyscore.calculate(results)
 
     decision = DecisionEngine()
 
