@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from rules.rule_result import RuleResult
 
 
 class BaseRule(ABC):
@@ -8,5 +9,5 @@ class BaseRule(ABC):
         self.weight = weight
 
     @abstractmethod
-    def evaluate(self, facts: dict) -> bool:
+    def evaluate(self, facts: dict) -> RuleResult:
         pass
