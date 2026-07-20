@@ -30,8 +30,7 @@ def main():
 
     decision = DecisionEngine()
 
-    final = decision.decide(score)
-
+    final = decision.decide(results)
     print(final)
 
 
