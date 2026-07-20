@@ -1,26 +1,32 @@
+from engines.decision import Decision
+from rules.rule_result import RuleResult
+
+
 class DecisionEngine:
 
-    def decide(self, sky_score):
+    def decide(self, results: list[RuleResult]) -> Decision:
+        buy_score = 0
+        sell_score = 0
+        reasons = []
 
-        score = sky_score["score"]
+        for result in results:
+            if result.passed:
+                buy_score += result.weight
+                reasons.append(result.name)
 
-        if score >= 85:
-            action = "STRONG BUY"
+        confidence = min(buy_score, 100)
 
-        elif score >= 70:
+        if buy_score >= 70:
             action = "BUY"
-
-        elif score >= 50:
+        elif buy_score >= 40:
             action = "HOLD"
-
-        elif score >= 30:
-            action = "WATCH"
-
         else:
-            action = "SELL / AVOID"
+            action = "SELL"
 
-        return {
-            "action": action,
-            "score": score,
-            "reasons": sky_score["reasons"]
-        }
+        return Decision(
+            action=action,
+            buy_score=buy_score,
+            sell_score=sell_score,
+            confidence=confidence,
+            reasons=reasons
+        )
