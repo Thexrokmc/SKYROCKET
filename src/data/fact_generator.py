@@ -1,6 +1,6 @@
 from data.market import MarketData
 from data.fact import Fact
-
+from data.fact_ids import PRICE_ABOVE_EMA200
 
 def market_data_to_facts(market: MarketData) -> list[Fact]:
     facts = []
