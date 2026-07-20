@@ -1,5 +1,6 @@
 from portfolio.portfolio import Portfolio
 from data.market import MarketData
+from data.fact_generator import market_data_to_facts
 
 from engines.rule_engine import RuleEngine
 from engines.decision_engine import DecisionEngine
@@ -14,7 +15,9 @@ def main():
 
     portfolio = Portfolio()
 
-   market = MarketData()
+    market = MarketData()
+
+    facts = market_data_to_facts(market)
 
     rule_engine = RuleEngine()
 
@@ -27,10 +30,10 @@ def main():
         market
     )
 
-
     decision = DecisionEngine()
 
     final = decision.decide(results)
+
     print(final)
 
 
