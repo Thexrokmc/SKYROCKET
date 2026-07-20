@@ -16,19 +16,17 @@ def market_data_to_facts(market: MarketData) -> list[Fact]:
     facts = []
 
     if market.price is not None and market.ema200 is not None:
-        facts.append(
-            Fact(
-                id=PRICE_ABOVE_EMA200,
-                value=market.price > market.ema200
-            )
+        add_fact(
+            facts,
+            PRICE_ABOVE_EMA200,
+            market.price > market.ema200
         )
 
     if market.price is not None and market.ema50 is not None:
-        facts.append(
-            Fact(
-                id=PRICE_ABOVE_EMA50,
-                value=market.price > market.ema50
-            )
+        add_fact(
+            facts,
+            PRICE_ABOVE_EMA50,
+            market.price > market.ema50
         )
 
     return facts
