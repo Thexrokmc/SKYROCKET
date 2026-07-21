@@ -48,10 +48,41 @@ class TechnicalIndicators:
     @staticmethod
     def macd(values: list[float]):
 
-        ema12 = TechnicalIndicators.ema(values, 12)
-        ema26 = TechnicalIndicators.ema(values, 26)
+        if len(values) < 35:
+            return None, None, None
 
-        if ema12 is None or ema26 is None:
-            return None
+        multiplier12 = 2 / (12 + 1)
+        multiplier26 = 2 / (26 + 1)
+        multiplier9 = 2 / (9 + 1)
 
-        return ema12 - ema26
+        ema12 = values[0]
+        ema26 = values[0]
+
+        macd_values = []
+
+        for price in values:
+
+            ema12 = (price - ema12) * multiplier12 + ema12
+            ema26 = (price - ema26) * multiplier26 + ema26
+
+            macd_values.append(
+                ema12 - ema26
+            )
+
+        signal = macd_values[0]
+
+        for value in macd_values:
+
+            signal = (
+                (value - signal) * multiplier9
+            ) + signal
+
+        macd = macd_values[-1]
+
+        histogram = macd - signal
+
+        return (
+            macd,
+            signal,
+            histogram
+        )
