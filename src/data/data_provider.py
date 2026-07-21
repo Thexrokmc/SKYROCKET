@@ -1,28 +1,36 @@
 from data.market import MarketData
+from data.kraken_client import KrakenClient
 
 
 class DataProvider:
 
-    def load_market_data(self) -> MarketData:
+    def __init__(self):
+        self.client = KrakenClient()
+
+    def load_market_data(
+        self,
+        symbol: str = "PF_XBTUSD"
+    ) -> MarketData:
 
         market = MarketData()
 
-        market.symbol = "BTCUSDT"
+        data = self.client.get_candles(
+            symbol=symbol,
+            interval="1h"
+        )
 
-        market.price = 118000
+        market.symbol = symbol
 
-        market.ema50 = 115000
-
-        market.ema200 = 108000
-
-        market.rsi = 42
-
-        market.macd = 125
-
-        market.macd_signal = 118
-
-        market.macd_histogram = 7
-
-        market.volume = 1250000000
+        # TODO:
+        # Στο επόμενο βήμα θα κάνουμε parse το JSON
+        # και θα γεμίσουμε:
+        # market.price
+        # market.ema50
+        # market.ema200
+        # market.rsi
+        # market.macd
+        # market.macd_signal
+        # market.macd_histogram
+        # market.volume
 
         return market
