@@ -80,15 +80,27 @@ decision = decision_engine.decide(
 )
 
 print()
+
 print("========== MARKET ==========")
 print(vars(market))
 
 print()
+
 print("========== RULE RESULTS ==========")
 
 for result in results:
     print(result)
 
 print()
+
 print("========== DECISION ==========")
-print(decision)
+
+print("Action :", decision.action)
+print("Score  :", decision.score)
+
+print()
+
+print("Reasons:")
+
+for reason in decision.reasons:
+    print("-", reason)
