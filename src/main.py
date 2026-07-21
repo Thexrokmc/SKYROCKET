@@ -34,6 +34,10 @@ from rules.trend_rule import (
     TrendRule
 )
 
+from rules.momentum_rule import (
+    MomentumRule
+)
+
 from decision.decision_engine import (
     DecisionEngine
 )
@@ -50,6 +54,8 @@ facts = market_data_to_facts(
 rule_engine = RuleEngine([
 
     TrendRule(),
+
+    MomentumRule(),
 
     PriceAboveEMA200Rule(),
     PriceAboveEMA50Rule(),
@@ -74,18 +80,15 @@ decision = decision_engine.decide(
 )
 
 print()
-
-print("===== MARKET =====")
+print("========== MARKET ==========")
 print(vars(market))
 
 print()
-
-print("===== RULE RESULTS =====")
+print("========== RULE RESULTS ==========")
 
 for result in results:
     print(result)
 
 print()
-
-print("===== DECISION =====")
+print("========== DECISION ==========")
 print(decision)
