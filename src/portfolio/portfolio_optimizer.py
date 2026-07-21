@@ -1,43 +1,111 @@
+from dataclasses import dataclass
+from typing import List
+
+
+@dataclass
+class PortfolioRecommendation:
+
+    symbol: str
+
+    action: str
+
+    target_weight: float
+
+    current_weight: float
+
+    difference: float
+
+    reason: str
+
+
 class PortfolioOptimizer:
 
-    def optimize(self, portfolio):
+    def __init__(self):
 
-        buy = []
+        pass
 
-        accumulate = []
+    def optimize(
 
-        hold = []
+        self,
 
-        wait = []
+        assets,
 
-        for asset in portfolio:
+        decisions,
 
-            score = asset["score"]
+        target_weights
 
-            if score >= 80:
+    ):
 
-                buy.append(asset)
+        recommendations: List[PortfolioRecommendation] = []
 
-            elif score >= 60:
+        for asset in assets:
 
-                accumulate.append(asset)
+            symbol = asset.symbol
 
-            elif score >= 40:
+            decision = decisions[symbol]
 
-                hold.append(asset)
+            current = asset.weight
 
-            else:
+            target = target_weights.get(
 
-                wait.append(asset)
+                symbol,
 
-        return {
+                current
 
-            "buy": buy,
+            )
 
-            "accumulate": accumulate,
+            action = "HOLD"
 
-            "hold": hold,
+            if decision.decision.value in (
 
-            "wait": wait
+                "BUY",
 
-        }
+                "STRONG BUY",
+
+                "ACCUMULATE"
+
+            ):
+
+                if current < target:
+
+                    action = "BUY"
+
+            elif decision.decision.value in (
+
+                "SELL",
+
+                "REDUCE"
+
+            ):
+
+                if current > target:
+
+                    action = "SELL"
+
+            recommendations.append(
+
+                PortfolioRecommendation(
+
+                    symbol=symbol,
+
+                    action=action,
+
+                    target_weight=target,
+
+                    current_weight=current,
+
+                    difference=round(
+
+                        target-current,
+
+                        4
+
+                    ),
+
+                    reason=decision.reason
+
+                )
+
+            )
+
+        return recommendations
