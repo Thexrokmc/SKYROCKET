@@ -1,3 +1,4 @@
+from decision.decision import Decision
 from decision.sky_score_engine import SkyScoreEngine
 
 
@@ -9,21 +10,34 @@ class DecisionEngine:
 
     def decide(self, results):
 
+        decision = Decision()
+
         score = self.sky_score.calculate(results)
 
+        decision.score = score
+
+        for result in results:
+
+            if result.passed:
+
+                decision.add_reason(
+                    result.name
+                )
+
         if score >= 80:
-            action = "BUY"
+
+            decision.action = "BUY"
 
         elif score >= 60:
-            action = "ACCUMULATE"
+
+            decision.action = "ACCUMULATE"
 
         elif score >= 40:
-            action = "HOLD"
+
+            decision.action = "HOLD"
 
         else:
-            action = "WAIT"
 
-        return {
-            "action": action,
-            "score": score
-        }
+            decision.action = "WAIT"
+
+        return decision
