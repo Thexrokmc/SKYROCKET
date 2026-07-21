@@ -26,10 +26,8 @@ def main():
     )
 
     results = rule_engine.evaluate(
-        portfolio,
-        market
-    )
-
+    facts
+)
     decision = DecisionEngine()
 
     final = decision.decide(results)
