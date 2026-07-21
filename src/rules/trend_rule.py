@@ -19,13 +19,20 @@ class TrendRule(BaseRule):
     def evaluate(self, facts: dict) -> RuleResult:
 
         passed = (
-            facts.get(PRICE_ABOVE_EMA200, False)
+            facts.get(
+                PRICE_ABOVE_EMA200,
+                False
+            )
             and
-            facts.get(PRICE_ABOVE_EMA50, False)
+            facts.get(
+                PRICE_ABOVE_EMA50,
+                False
+            )
         )
 
         return RuleResult(
             name=self.name,
             passed=passed,
-            weight=self.weight
+            weight=self.weight,
+            description="Price is above EMA50 and EMA200"
         )
