@@ -4,6 +4,9 @@ from data.fact_ids import (
     PRICE_ABOVE_EMA200,
     PRICE_ABOVE_EMA50,
     PRICE_BELOW_EMA200,
+    RSI_OVERSOLD,
+    MACD_BULLISH,
+    MACD_BEARISH,
 )
 
 
@@ -38,6 +41,29 @@ def market_data_to_facts(market: MarketData) -> list[Fact]:
             facts,
             PRICE_BELOW_EMA200,
             market.price < market.ema200
+        )
+
+    if market.rsi is not None:
+        add_fact(
+            facts,
+            RSI_OVERSOLD,
+            market.rsi < 30
+        )
+
+    if (
+        market.macd is not None and
+        market.macd_signal is not None
+    ):
+        add_fact(
+            facts,
+            MACD_BULLISH,
+            market.macd > market.macd_signal
+        )
+
+        add_fact(
+            facts,
+            MACD_BEARISH,
+            market.macd < market.macd_signal
         )
 
     return facts
