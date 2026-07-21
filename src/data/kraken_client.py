@@ -3,25 +3,102 @@ import requests
 
 class KrakenClient:
 
-    BASE_URL = "https://futures.kraken.com/api/charts/v1/trade"
+    BASE_URL = "https://api.kraken.com"
 
-    def get_candles(
+    def __init__(
+
         self,
-        symbol: str,
-        interval: str = "1h"
+
+        timeout=10
+
     ):
 
-        params = {
-            "symbol": symbol,
-            "interval": interval
-        }
+        self.timeout = timeout
+
+    def _get(
+
+        self,
+
+        endpoint,
+
+        params=None
+
+    ):
+
+        url = f"{self.BASE_URL}{endpoint}"
 
         response = requests.get(
-            self.BASE_URL,
+
+            url,
+
             params=params,
-            timeout=10
+
+            timeout=self.timeout
+
         )
 
         response.raise_for_status()
 
-        return response.json()
+        data = response.json()
+
+        if data.get("error"):
+
+            raise Exception(
+
+                ", ".join(data["error"])
+
+            )
+
+        return data["result"]
+
+    def server_time(self):
+
+        return self._get(
+
+            "/0/public/Time"
+
+        )
+
+    def ticker(
+
+        self,
+
+        pair
+
+    ):
+
+        return self._get(
+
+            "/0/public/Ticker",
+
+            {
+
+                "pair": pair
+
+            }
+
+        )
+
+    def ohlc(
+
+        self,
+
+        pair,
+
+        interval=60
+
+    ):
+
+        return self._get(
+
+            "/0/public/OHLC",
+
+            {
+
+                "pair": pair,
+
+                "interval": interval
+
+            }
+
+        )
