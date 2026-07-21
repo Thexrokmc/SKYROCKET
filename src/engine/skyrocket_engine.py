@@ -8,6 +8,10 @@ from advisor.ai_advisor import AIAdvisor
 
 from report.report_generator import ReportGenerator
 
+from history.history_manager import HistoryManager
+
+from models.analysis_result import AnalysisResult
+
 
 class SkyrocketEngine:
 
@@ -22,6 +26,8 @@ class SkyrocketEngine:
         self.advisor = AIAdvisor()
 
         self.report = ReportGenerator()
+
+        self.history = HistoryManager()
 
     def analyze(self, symbol):
 
@@ -57,17 +63,35 @@ class SkyrocketEngine:
 
         )
 
+        result = AnalysisResult(
+
+            symbol=symbol,
+
+            price=timeframe_market.price,
+
+            score=score,
+
+            market_cycle=cycle,
+
+            decision=advice[-1],
+
+            reasons=advice
+
+        )
+
+        self.history.save(result)
+
         report = self.report.generate(
 
-            symbol,
+            result.symbol,
 
-            cycle,
+            result.market_cycle,
 
-            score,
+            result.score,
 
-            advice[-1],
+            result.decision,
 
-            advice
+            result.reasons
 
         )
 
