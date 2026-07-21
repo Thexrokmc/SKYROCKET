@@ -1,53 +1,75 @@
+from dataclasses import dataclass
+from typing import List
+
+
+@dataclass
+class ProfitTarget:
+
+    level: float
+    sell_percent: float
+
+
+@dataclass
+class ProfitAction:
+
+    symbol: str
+    action: str
+    sell_percent: float
+    reason: str
+
+
 class ProfitTakingEngine:
 
-    def recommend(
+    def __init__(self):
+
+        self.targets = [
+
+            ProfitTarget(1.25, 10),
+
+            ProfitTarget(1.50, 15),
+
+            ProfitTarget(2.00, 20),
+
+            ProfitTarget(3.00, 25),
+
+            ProfitTarget(5.00, 30)
+
+        ]
+
+    def evaluate(
 
         self,
 
-        score,
+        symbol,
 
-        profit_percent
+        average_price,
+
+        current_price
 
     ):
 
-        if profit_percent < 20:
+        multiple = current_price / average_price
 
-            return {
-                "action": "HOLD",
-                "sell_percent": 0
-            }
+        actions: List[ProfitAction] = []
 
-        if score >= 90:
+        for target in self.targets:
 
-            return {
-                "action": "HOLD",
-                "sell_percent": 0
-            }
+            if multiple >= target.level:
 
-        elif score >= 80:
+                actions.append(
 
-            return {
-                "action": "TAKE SMALL PROFIT",
-                "sell_percent": 10
-            }
+                    ProfitAction(
 
-        elif score >= 65:
+                        symbol=symbol,
 
-            return {
-                "action": "TAKE PROFIT",
-                "sell_percent": 20
-            }
+                        action="SELL",
 
-        elif score >= 50:
+                        sell_percent=target.sell_percent,
 
-            return {
-                "action": "REDUCE POSITION",
-                "sell_percent": 35
-            }
+                        reason=f"Reached {target.level:.2f}x"
 
-        else:
+                    )
 
-            return {
-                "action": "EXIT",
-                "sell_percent": 50
-            }
+                )
+
+        return actions
