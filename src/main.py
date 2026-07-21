@@ -1,5 +1,6 @@
 from portfolio.portfolio import Portfolio
-from data.market import MarketData
+
+from data.data_provider import DataProvider
 from data.fact_generator import market_data_to_facts
 
 from rules.price_above_ema200_rule import PriceAboveEMA200Rule
@@ -20,7 +21,9 @@ def main():
 
     portfolio = Portfolio()
 
-    market = MarketData()
+    provider = DataProvider()
+
+    market = provider.load_market_data()
 
     facts = market_data_to_facts(market)
 
