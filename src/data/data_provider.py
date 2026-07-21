@@ -6,18 +6,20 @@ from indicators.technical_indicators import TechnicalIndicators
 class DataProvider:
 
     def __init__(self):
+
         self.client = KrakenClient()
 
     def load_market_data(
         self,
-        symbol: str = "PF_XBTUSD"
+        symbol: str = "PF_XBTUSD",
+        interval: str = "1h"
     ) -> MarketData:
 
         market = MarketData()
 
         data = self.client.get_candles(
             symbol=symbol,
-            interval="1h"
+            interval=interval
         )
 
         closes = []
@@ -25,6 +27,7 @@ class DataProvider:
         if "candles" in data:
 
             for candle in data["candles"]:
+
                 closes.append(
                     float(candle["close"])
                 )
