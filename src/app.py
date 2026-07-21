@@ -1,42 +1,66 @@
-from config.symbols import Symbols
-
-from engine.skyrocket_engine import SkyrocketEngine
+from core.skyrocket_engine import SkyrocketEngine
 
 
-def main():
+class SkyrocketApp:
 
-    engine = SkyrocketEngine()
+    def __init__(
 
-    print()
+        self,
 
-    print("=" * 70)
-    print("🚀 SKYROCKET v1.0")
-    print("=" * 70)
-    print()
+        engine: SkyrocketEngine
 
-    for symbol in Symbols.all():
+    ):
 
-        try:
+        self.engine = engine
 
-            report = engine.analyze(symbol)
+    def run(
 
-            print(report)
+        self,
 
-            print()
+        symbols,
 
-        except Exception as e:
+        portfolio_value,
 
-            print(f"{symbol} -> ERROR")
+        asset_values,
 
-            print(e)
+        available_cash,
 
-            print()
+        fear_greed,
 
-    print("=" * 70)
-    print("Analysis Complete")
-    print("=" * 70)
+        days_since_last_buy
 
+    ):
 
-if __name__ == "__main__":
+        reports = []
 
-    main()
+        for symbol in symbols:
+
+            report = self.engine.analyze(
+
+                symbol=symbol,
+
+                portfolio_value=portfolio_value,
+
+                asset_value=asset_values.get(
+
+                    symbol,
+
+                    0
+
+                ),
+
+                available_cash=available_cash,
+
+                fear_greed=fear_greed,
+
+                days_since_last_buy=days_since_last_buy
+
+            )
+
+            reports.append(
+
+                report
+
+            )
+
+        return reports
