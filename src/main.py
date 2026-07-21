@@ -26,8 +26,9 @@ def main():
     )
 
     results = rule_engine.evaluate(
-    facts
-)
+        facts
+    )
+
     decision = DecisionEngine()
 
     final = decision.decide(results)
