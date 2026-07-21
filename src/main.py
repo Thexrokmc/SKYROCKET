@@ -5,7 +5,6 @@ from rules.price_above_ema200_rule import PriceAboveEMA200Rule
 from rules.price_above_ema50_rule import PriceAboveEMA50Rule
 from engines.rule_engine import RuleEngine
 from engines.decision_engine import DecisionEngine
-
 from rules.allocation_rule import AllocationRule
 
 
