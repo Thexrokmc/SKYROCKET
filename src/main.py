@@ -1,68 +1,91 @@
-from portfolio.portfolio import Portfolio
-
 from data.data_provider import DataProvider
-from data.fact_generator import market_data_to_facts
 
-from rules.price_above_ema200_rule import PriceAboveEMA200Rule
-from rules.price_above_ema50_rule import PriceAboveEMA50Rule
-from rules.rsi_oversold_rule import RSIOversoldRule
-from rules.macd_bullish_rule import MACDBullishRule
-from rules.macd_bearish_rule import MACDBearishRule
-from rules.allocation_rule import AllocationRule
+from data.fact_generator import (
+    market_data_to_facts
+)
 
-from engines.rule_engine import RuleEngine
-from engines.decision_engine import DecisionEngine
+from rules.rule_engine import RuleEngine
 
+from rules.price_above_ema200_rule import (
+    PriceAboveEMA200Rule
+)
 
-def main():
+from rules.price_above_ema50_rule import (
+    PriceAboveEMA50Rule
+)
 
-    print("🚀 SKYROCKET v1.0")
-    print("---------------------------")
+from rules.rsi_oversold_rule import (
+    RSIOversoldRule
+)
 
-    portfolio = Portfolio()
+from rules.macd_bullish_rule import (
+    MACDBullishRule
+)
 
-    provider = DataProvider()
+from rules.macd_bearish_rule import (
+    MACDBearishRule
+)
 
-    market = provider.load_market_data()
+from rules.allocation_rule import (
+    AllocationRule
+)
 
-    facts = market_data_to_facts(market)
+from rules.trend_rule import (
+    TrendRule
+)
 
-    rule_engine = RuleEngine()
-
-    rule_engine.add_rule(
-        PriceAboveEMA200Rule()
-    )
-
-    rule_engine.add_rule(
-        PriceAboveEMA50Rule()
-    )
-
-    rule_engine.add_rule(
-        RSIOversoldRule()
-    )
-
-    rule_engine.add_rule(
-        MACDBullishRule()
-    )
-
-    rule_engine.add_rule(
-        MACDBearishRule()
-    )
-
-    rule_engine.add_rule(
-        AllocationRule()
-    )
-
-    results = rule_engine.evaluate(
-        facts
-    )
-
-    decision = DecisionEngine()
-
-    final = decision.decide(results)
-
-    print(final)
+from decision.decision_engine import (
+    DecisionEngine
+)
 
 
-if __name__ == "__main__":
-    main()
+provider = DataProvider()
+
+market = provider.load_market_data()
+
+facts = market_data_to_facts(
+    market
+)
+
+rule_engine = RuleEngine([
+
+    TrendRule(),
+
+    PriceAboveEMA200Rule(),
+    PriceAboveEMA50Rule(),
+
+    RSIOversoldRule(),
+
+    MACDBullishRule(),
+    MACDBearishRule(),
+
+    AllocationRule(),
+
+])
+
+results = rule_engine.evaluate(
+    facts
+)
+
+decision_engine = DecisionEngine()
+
+decision = decision_engine.decide(
+    results
+)
+
+print()
+
+print("===== MARKET =====")
+print(vars(market))
+
+print()
+
+print("===== RULE RESULTS =====")
+
+for result in results:
+    print(result)
+
+print()
+
+print("===== DECISION =====")
+print(decision)
