@@ -1,4 +1,5 @@
 from .base_rule import BaseRule
+from .rule_result import RuleResult
 
 
 class AllocationRule(BaseRule):
@@ -9,17 +10,10 @@ class AllocationRule(BaseRule):
             weight=15
         )
 
-    def evaluate(self, portfolio, market=None):
+    def evaluate(self, facts: dict) -> RuleResult:
 
-        if portfolio.total_value == 0:
-            return {
-                "passed": False,
-                "score": 0,
-                "reason": "Portfolio is empty."
-            }
-
-        return {
-            "passed": True,
-            "score": self.weight,
-            "reason": "Portfolio allocation check passed."
-        }
+        return RuleResult(
+            name=self.name,
+            passed=True,
+            weight=self.weight
+        )
