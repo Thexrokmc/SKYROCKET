@@ -1,5 +1,6 @@
 from data.market import MarketData
 from data.kraken_client import KrakenClient
+from indicators.technical_indicators import TechnicalIndicators
 
 
 class DataProvider:
@@ -19,18 +20,35 @@ class DataProvider:
             interval="1h"
         )
 
+        closes = []
+
+        if "candles" in data:
+            for candle in data["candles"]:
+                closes.append(float(candle["close"]))
+
+        if len(closes) == 0:
+            return market
+
         market.symbol = symbol
 
-        # TODO:
-        # Στο επόμενο βήμα θα κάνουμε parse το JSON
-        # και θα γεμίσουμε:
-        # market.price
-        # market.ema50
-        # market.ema200
-        # market.rsi
-        # market.macd
-        # market.macd_signal
-        # market.macd_histogram
-        # market.volume
+        market.price = closes[-1]
+
+        market.ema50 = TechnicalIndicators.ema(
+            closes,
+            50
+        )
+
+        market.ema200 = TechnicalIndicators.ema(
+            closes,
+            200
+        )
+
+        market.rsi = TechnicalIndicators.rsi(
+            closes
+        )
+
+        market.macd = TechnicalIndicators.macd(
+            closes
+        )
 
         return market
