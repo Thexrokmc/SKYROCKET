@@ -1,107 +1,40 @@
 from config.symbols import Symbols
 
-from scanner.portfolio_scanner import PortfolioScanner
-
-from portfolio.portfolio_optimizer import PortfolioOptimizer
-
-from portfolio.dca_manager import DCAManager
-
-from portfolio.profit_taking_engine import ProfitTakingEngine
-
-from portfolio.rebalancing_engine import RebalancingEngine
+from engine.skyrocket_engine import SkyrocketEngine
 
 
 def main():
 
-    symbols = Symbols.all()
-
-    scanner = PortfolioScanner()
-
-    portfolio = scanner.analyze(
-        symbols
-    )
-
-    optimizer = PortfolioOptimizer()
-
-    optimized = optimizer.optimize(
-        portfolio
-    )
-
-    dca_manager = DCAManager()
-
-    profit_engine = ProfitTakingEngine()
-
-    rebalance_engine = RebalancingEngine()
+    engine = SkyrocketEngine()
 
     print()
 
-    print("=" * 60)
-
-    print("🚀 SKYROCKET")
-
-    print("=" * 60)
-
+    print("=" * 70)
+    print("🚀 SKYROCKET v1.0")
+    print("=" * 70)
     print()
 
-    for group in optimized:
+    for symbol in Symbols.all():
 
-        print(group.upper())
+        try:
 
-        print("-" * 30)
+            report = engine.analyze(symbol)
 
-        for asset in optimized[group]:
+            print(report)
 
-            print(
-                f"{asset['symbol']} | Score: {asset['score']}"
-            )
+            print()
 
-        print()
+        except Exception as e:
 
-    print("=" * 60)
+            print(f"{symbol} -> ERROR")
 
-    print("PORTFOLIO TOOLS")
+            print(e)
 
-    print("=" * 60)
+            print()
 
-    print()
-
-    print("DCA Recommendation")
-
-    print(
-        dca_manager.recommend(
-            85,
-            8
-        )
-    )
-
-    print()
-
-    print("Profit Taking")
-
-    print(
-        profit_engine.recommend(
-            82,
-            35
-        )
-    )
-
-    print()
-
-    print("Rebalancing")
-
-    print(
-        rebalance_engine.rebalance(
-            portfolio
-        )
-    )
-
-    print()
-
-    print("=" * 60)
-
-    print("END OF REPORT")
-
-    print("=" * 60)
+    print("=" * 70)
+    print("Analysis Complete")
+    print("=" * 70)
 
 
 if __name__ == "__main__":
