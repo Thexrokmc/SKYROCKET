@@ -19,13 +19,20 @@ class MomentumRule(BaseRule):
     def evaluate(self, facts: dict) -> RuleResult:
 
         passed = (
-            facts.get(RSI_BULLISH, False)
+            facts.get(
+                RSI_BULLISH,
+                False
+            )
             and
-            facts.get(MACD_BULLISH, False)
+            facts.get(
+                MACD_BULLISH,
+                False
+            )
         )
 
         return RuleResult(
             name=self.name,
             passed=passed,
-            weight=self.weight
+            weight=self.weight,
+            description="RSI and MACD confirm bullish momentum"
         )
