@@ -22,9 +22,20 @@ def main():
     rule_engine = RuleEngine()
 
     rule_engine.add_rule(
-        AllocationRule()
-    )
+    PriceAboveEMA200Rule()
+)
 
+rule_engine.add_rule(
+    PriceAboveEMA50Rule()
+)
+
+rule_engine.add_rule(
+    RSIOversoldRule()
+)
+
+rule_engine.add_rule(
+    AllocationRule()
+)
     results = rule_engine.evaluate(
         facts
     )
