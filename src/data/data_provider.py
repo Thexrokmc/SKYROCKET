@@ -23,8 +23,11 @@ class DataProvider:
         closes = []
 
         if "candles" in data:
+
             for candle in data["candles"]:
-                closes.append(float(candle["close"]))
+                closes.append(
+                    float(candle["close"])
+                )
 
         if len(closes) == 0:
             return market
@@ -47,7 +50,11 @@ class DataProvider:
             closes
         )
 
-        market.macd = TechnicalIndicators.macd(
+        (
+            market.macd,
+            market.macd_signal,
+            market.macd_histogram
+        ) = TechnicalIndicators.macd(
             closes
         )
 
