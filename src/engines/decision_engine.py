@@ -1,21 +1,29 @@
-class SkyScoreEngine:
+from decision.sky_score_engine import SkyScoreEngine
 
-    def calculate(self, results):
 
-        total_weight = 0
-        achieved_weight = 0
+class DecisionEngine:
 
-        for result in results:
+    def __init__(self):
 
-            total_weight += result.weight
+        self.sky_score = SkyScoreEngine()
 
-            if result.passed:
-                achieved_weight += result.weight
+    def decide(self, results):
 
-        if total_weight == 0:
-            return 0
+        score = self.sky_score.calculate(results)
 
-        return round(
-            achieved_weight / total_weight * 100,
-            1
-        )
+        if score >= 80:
+            action = "BUY"
+
+        elif score >= 60:
+            action = "ACCUMULATE"
+
+        elif score >= 40:
+            action = "HOLD"
+
+        else:
+            action = "WAIT"
+
+        return {
+            "action": action,
+            "score": score
+        }
