@@ -1,67 +1,97 @@
+from dataclasses import dataclass
+from typing import List
+
+
+@dataclass
+class RebalanceAction:
+
+    symbol: str
+
+    action: str
+
+    amount_eur: float
+
+    reason: str
+
+
 class RebalancingEngine:
 
-    def rebalance(self, portfolio):
+    def __init__(
 
-        recommendations = []
+        self,
 
-        total_value = sum(
-            asset.market_value
-            for asset in portfolio.assets
-        )
+        minimum_trade=20.0
 
-        if total_value == 0:
-            return recommendations
+    ):
 
-        for asset in portfolio.assets:
+        self.minimum_trade = minimum_trade
 
-            allocation = (
-                asset.market_value
-                / total_value
-            ) * 100
+    def build_plan(
 
-            if allocation > 20:
+        self,
 
-                recommendations.append({
+        portfolio_value,
 
-                    "symbol": asset.symbol,
+        recommendations
 
-                    "action": "REDUCE",
+    ):
 
-                    "allocation": round(
-                        allocation,
-                        2
-                    )
+        plan: List[RebalanceAction] = []
 
-                })
+        for recommendation in recommendations:
 
-            elif allocation < 5:
+            difference = recommendation.difference
 
-                recommendations.append({
+            amount = abs(
 
-                    "symbol": asset.symbol,
+                difference
 
-                    "action": "INCREASE",
+            ) * portfolio_value
 
-                    "allocation": round(
-                        allocation,
-                        2
-                    )
+            if amount < self.minimum_trade:
 
-                })
+                continue
+
+            if recommendation.action == "BUY":
+
+                action = "BUY"
+
+            elif recommendation.action == "SELL":
+
+                action = "SELL"
 
             else:
 
-                recommendations.append({
+                continue
 
-                    "symbol": asset.symbol,
+            plan.append(
 
-                    "action": "KEEP",
+                RebalanceAction(
 
-                    "allocation": round(
-                        allocation,
+                    symbol=recommendation.symbol,
+
+                    action=action,
+
+                    amount_eur=round(
+
+                        amount,
+
                         2
-                    )
 
-                })
+                    ),
 
-        return recommendations
+                    reason=recommendation.reason
+
+                )
+
+            )
+
+        return sorted(
+
+            plan,
+
+            key=lambda x: x.amount_eur,
+
+            reverse=True
+
+        )
